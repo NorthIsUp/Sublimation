@@ -29,7 +29,6 @@ def _git_push():
 @needs(['bump_rev'])
 def dist():
     """Generate docs and source distribution."""
-    _git_amend()  # save the new version number
     _git_push()
 
 
@@ -50,6 +49,8 @@ def bump_rev():
     metadata = json.loads(metadata_file.text())
     metadata['version'] = sh("git reflog --all | wc -l", capture=True,).strip()
     metadata_file.write_text(json.dumps(metadata, indent=4, sort_keys=True))
+    _git_amend()  # save the new version number
+    sh("git tag %s" % metadata['version'])
 
 
 @task
