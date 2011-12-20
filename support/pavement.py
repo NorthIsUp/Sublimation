@@ -1,7 +1,5 @@
 from paver.easy import *
 from paver.setuputils import setup
-from datetime import datetime
-from pprint import pprint
 try:
     import simplejson as json
 except Exception, e:
