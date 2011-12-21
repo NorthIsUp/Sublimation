@@ -16,9 +16,9 @@ Commands
 
 ### block_select
 
-How: alt+s
+How: alt+s (I would like this to be just alt like in TextMate, anybody know how?)
 
-What: toggles a multiline selection between single cursor (with line wrapping) and a square selection from the upper left to lower right corners of the selection.∏
+What: toggles a multiline selection between single cursor (with line wrapping) and a square selection from the upper left to lower right corners of the selection.
 
 Todos:
 
