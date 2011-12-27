@@ -1,3 +1,4 @@
 [
-    { "keys": ["alt+s"], "command": "block_select" }
+    { "keys": ["alt+s"], "command": "block_select" },
+    { "keys": ["alt+c"], "command": "update_api_doc" }
 ]
