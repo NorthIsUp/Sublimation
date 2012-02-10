@@ -1,9 +1,10 @@
 import os
 from paver.easy import *
+from paver.path import path
 from paver.setuputils import setup
 import simplejson as json
 
-sublimation_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sublimation_dir = path(__file__).dirname().abspath()
 
 setup(
     name="Sublimation",
@@ -20,7 +21,7 @@ def _git_tag(tag):
 
 
 def _git_amend():
-    sh("git commit --amend -C HEAD")
+    sh("git commit --amend -aC HEAD")
 
 
 def _git_push():
@@ -47,7 +48,10 @@ def html():
 @task
 def bump_rev():
     """Bump the revision as a part of distribution"""
-    version = sh("git log --oneline --all | wc -l", capture=True,).strip()
+    revision_count = sh("git log --oneline --all | wc -l", capture=True,).strip()
+    project_version = sh("git describe --tags --long", capture=True).strip()
+
+    version = "-".join((project_version, revision_count))
 
     metadata_file = path(sublimation_dir + "/package-metadata.json")
     messages_file = path(sublimation_dir + "/messages.json")
@@ -65,9 +69,9 @@ def bump_rev():
     messages['latest'] = "Some sort of awesome change!"
     messages_file.write_text(json.dumps(messages, indent=4, sort_keys=True))
 
-    _git_amend()  # save the new version number
-
-    _git_tag(metadata['version'])
+    print version
+    # _git_amend()  # save the new version number
+    # _git_tag(metadata['version'])
 
 
 @task
