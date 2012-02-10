@@ -1,0 +1,17 @@
+<snippet>
+    <content><![CDATA[class Test${1:Name}(unittest2.TestCase):
+    ${2/.+/"""/}${2:docstring for $1}${2/.+/"""\n/}${2/.+/\t/}def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_${3:something}(self):
+        ${0:pass}
+]]></content>
+    <tabTrigger>testcase</tabTrigger>
+    <scope>source.python</scope>
+    <description>New unittest2 template</description>
+</snippet>
+
+

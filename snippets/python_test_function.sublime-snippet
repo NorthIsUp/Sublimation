@@ -1,0 +1,11 @@
+<snippet>
+    <content><![CDATA[def test_${1:something}(self):
+    ${0:pass}
+
+]]></content>
+    <tabTrigger>test</tabTrigger>
+    <scope>source.python</scope>
+    <description>New test template</description>
+</snippet>
+
+
