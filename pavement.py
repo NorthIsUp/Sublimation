@@ -1,10 +1,11 @@
-import os
 from paver.easy import *
 from paver.path import path
 from paver.setuputils import setup
 import simplejson as json
 
 sublimation_dir = path(__file__).dirname().abspath()
+metadata_file = path(sublimation_dir + "/package-metadata.json")
+messages_file = path(sublimation_dir + "/messages.json")
 
 setup(
     name="Sublimation",
@@ -46,15 +47,21 @@ def html():
 
 
 @task
-def bump_rev():
-    """Bump the revision as a part of distribution"""
-    revision_count = sh("git log --oneline --all | wc -l", capture=True,).strip()
-    project_version = sh("git describe --tags --long", capture=True).strip()
+def test():
+    """run all unit tests"""
+    pass
 
-    version = "-".join((project_version, revision_count))
 
-    metadata_file = path(sublimation_dir + "/package-metadata.json")
-    messages_file = path(sublimation_dir + "/messages.json")
+@task
+@cmdopts([
+    ('message=', 'm', 'Message for messages file')
+    ])
+def bump_rev(options):
+    """--message=[msg] Bump the revision as a part of distribution"""
+    if not hasattr(options, 'message'):
+        raise Exception("requires --message")
+
+    version = sh("git log --oneline --all | wc -l", capture=True,).strip()
 
     metadata = json.loads(metadata_file.text())
     metadata['version'] = version
@@ -69,15 +76,11 @@ def bump_rev():
     messages['latest'] = "Some sort of awesome change!"
     messages_file.write_text(json.dumps(messages, indent=4, sort_keys=True))
 
-    print version
-    # _git_amend()  # save the new version number
-    # _git_tag(metadata['version'])
-
 
 @task
-def test():
-    """run all unit tests"""
-    pass
+def tag():
+    metadata = json.loads(metadata_file.text())
+    _git_tag(metadata['version'])
 
 
 @task
