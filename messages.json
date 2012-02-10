@@ -1,5 +1,6 @@
 {
-    "latest" : "added a messages.json file",
+    "14": "added a messages.json file",
+    "22": "Block selection is working with alt+s",
     "27": "updating description",
-    "22": "Block selection is working with alt+s"
+    "latest": "Some sort of awesome change!"
 }

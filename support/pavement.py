@@ -43,7 +43,7 @@ def html():
 @task
 def bump_rev():
     """Bump the revision as a part of distribution"""
-    version = sh("git reflog --all | wc -l", capture=True,).strip()
+    version = sh("git log --oneline --all | wc -l", capture=True,).strip()
 
     metadata_file = path(sublimation_dir + "/package-metadata.json")
     messages_file = path(sublimation_dir + "/messages.json")
@@ -58,10 +58,10 @@ def bump_rev():
     metadata_file.write_text(json.dumps(metadata, indent=4, sort_keys=True))
     messages_file.write_text(json.dumps(messages, indent=4, sort_keys=True))
 
-    _git_amend()  # save the new version number
-
     messages['latest'] = "Some sort of awesome change!"
     messages_file.write_text(json.dumps(messages, indent=4, sort_keys=True))
+
+    _git_amend()  # save the new version number
 
     sh("git tag %s" % metadata['version'])
 
