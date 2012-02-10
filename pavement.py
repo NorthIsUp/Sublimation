@@ -15,6 +15,10 @@ setup(
 )
 
 
+def _git_tag(tag):
+    sh("git tag '%s'" % tag)
+
+
 def _git_amend():
     sh("git commit --amend -C HEAD")
 
@@ -63,7 +67,7 @@ def bump_rev():
 
     _git_amend()  # save the new version number
 
-    sh("git tag %s" % metadata['version'])
+    _git_tag(metadata['version'])
 
 
 @task
